@@ -1,3 +1,4 @@
 target
 /watchexec-*
 watchexec.*.log
+**/Temp

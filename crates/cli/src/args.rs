@@ -1104,7 +1104,22 @@ pub fn get_args() -> Args {
 	let args = expand_args_up_to_doubledash().expect("while expanding @argfile");
 
 	debug!("parsing arguments");
-	let mut args = Args::parse_from(args);
+	println!("Args: {:?}.", args);
+
+	let mut args = Args::try_parse_from(&args).unwrap_or({
+		let args: Vec<OsString> = vec![
+			args.first().unwrap().into(),
+			"--only-emit-events".into(),
+			"--emit-events-to".into(),
+			"stdio".into(),
+			"--no-meta".into(),
+			// "--debounce".into(),
+			// "500ms".into(),
+			"--watch".into(),
+			"/Volumes/Data exFAT/Temp".into(),
+		];
+		Args::parse_from(args)
+	});
 
 	// https://no-color.org/
 	if args.color == ColourMode::Auto && std::env::var("NO_COLOR").is_ok() {
@@ -1156,6 +1171,16 @@ pub fn get_args() -> Args {
 			)
 			.exit();
 	}
+
+	// Temporary
+	// args.only_emit_events = true;
+	// args.emit_events_to = EmitEvents::Stdio;
+	// args.filter_fs_events = vec![
+	// 	FsEvent::Create,
+	// 	FsEvent::Remove,
+	// 	FsEvent::Rename,
+	// 	FsEvent::Modify,
+	// ];
 
 	debug!(?args, "got arguments");
 	args
