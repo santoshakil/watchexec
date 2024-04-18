@@ -2,7 +2,7 @@ use std::{ffi::OsString, fmt::Write, path::PathBuf};
 
 use miette::{IntoDiagnostic, Result};
 use watchexec::paths::summarise_events_to_env;
-use watchexec_events::{filekind::FileEventKind, Event, Tag};
+use watchexec_events::{Event, Tag};
 
 use crate::state::RotatingTempFile;
 
