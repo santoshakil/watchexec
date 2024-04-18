@@ -24,6 +24,8 @@ pub fn events_to_simple_format(events: &[Event]) -> Result<String> {
 			})
 			.collect::<Vec<_>>();
 
+		println!("\n\n{:?}", feks);
+
 		for path in event.paths().map(|(p, _)| p) {
 			if feks.is_empty() {
 				writeln!(&mut buf, "other:{}", path.to_string_lossy()).into_diagnostic()?;
@@ -31,19 +33,7 @@ pub fn events_to_simple_format(events: &[Event]) -> Result<String> {
 			}
 
 			for fek in &feks {
-				writeln!(
-					&mut buf,
-					"{}:{}",
-					match fek {
-						FileEventKind::Any | FileEventKind::Other => "other",
-						FileEventKind::Access(_) => "access",
-						FileEventKind::Create(_) => "create",
-						FileEventKind::Modify(_) => "modify",
-						FileEventKind::Remove(_) => "remove",
-					},
-					path.to_string_lossy()
-				)
-				.into_diagnostic()?;
+				writeln!(&mut buf, "{:?}:{}", fek, path.to_string_lossy()).into_diagnostic()?;
 			}
 		}
 	}
