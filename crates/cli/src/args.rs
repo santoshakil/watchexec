@@ -1113,8 +1113,8 @@ pub fn get_args() -> Args {
 			"--emit-events-to".into(),
 			"stdio".into(),
 			"--no-meta".into(),
-			// "--debounce".into(),
-			// "500ms".into(),
+			"--debounce".into(),
+			"1000ms".into(),
 			"--watch".into(),
 			"/Volumes/Data exFAT/Temp".into(),
 		];
